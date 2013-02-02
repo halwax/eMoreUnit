@@ -1,4 +1,4 @@
-emoreunit
+eMoreUnit
 =========
 
-Even more unit (simple extensions of more unit)
+Even more unit is a eclipse plugin providing simple extensions of the really helpful testing tooling moreunit.
