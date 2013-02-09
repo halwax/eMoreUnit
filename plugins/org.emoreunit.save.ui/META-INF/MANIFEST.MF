@@ -1,10 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EMoreUnit Test On Save UI
-Bundle-SymbolicName: org.emoreunit.save.ui
+Bundle-SymbolicName: org.emoreunit.save.ui;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: org.emoreunit.save.ui.EMoreUnitSavePlugin
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.moreunit;bundle-version="3.0.0",
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.jdt.annotation;bundle-version="1.0.0",
+ org.eclipse.debug.core;bundle-version="3.7.100",
+ org.eclipse.jdt.junit;bundle-version="3.7.100",
+ org.eclipse.jdt.core;bundle-version="3.8.2"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
