@@ -1,6 +1,7 @@
 package org.emoreunit.save.ui.handler;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.junit.launcher.JUnitLaunchShortcut;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -30,7 +33,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.emoreunit.save.ui.EMoreUnitSavePlugin;
 import org.emoreunit.save.ui.decorator.TestOnSaveDecorator;
+import org.moreunit.elements.ClassTypeFacade;
 import org.moreunit.elements.EditorPartFacade;
+import org.moreunit.elements.TypeFacade;
+import org.moreunit.handler.RunTestsActionExecutor;
 import org.moreunit.util.PluginTools;
 
 /**
@@ -101,18 +107,39 @@ public class TestOnSaveManager {
 	@NonNullByDefault
 	protected void runTest(EditorPartFacade editorPartFacade) {
 		
-		List<ILaunchConfiguration> launchConfigurations = findLaunchConfigurations(
-				new JUnitLaunchShortcut(), editorPartFacade);
-		if(launchConfigurations.isEmpty()) {
-			launchConfigurations = findLaunchConfigurations(editorPartFacade);
+		ICompilationUnit compilationUnit = editorPartFacade.getCompilationUnit();
+		ClassTypeFacade classTypeFacade = new ClassTypeFacade(compilationUnit);		
+		Collection<IType> testCases = classTypeFacade.getCorrespondingTestCases();
+		if(!testCases.isEmpty() && !TypeFacade.isTestCase(editorPartFacade.getCompilationUnit())) {
+			List<IResource> testResources = new ArrayList<IResource>();
+			for (IType testCase : testCases) {
+					IResource correspondingResource = testCase.getResource();
+					if(!testResources.contains(correspondingResource)) {
+						testResources.add(correspondingResource);
+					}
+					for (IResource testResource : testResources) {
+						if(testResource!=null) {							
+							runJUnitTest(testResource);
+						}
+					}
+			}
+		} else {
+			IFile file = editorPartFacade.getFile();
+			if(file!=null) {				
+				runJUnitTest(file);
+			}
 		}
+	}
 
-		if (!launchConfigurations.isEmpty()) {
-			ILaunchConfiguration launchConfiguration = launchConfigurations.get(0);
+	@NonNullByDefault
+	private void runJUnitTest(IResource resource) {
+		
+		List<ILaunchConfiguration> launchConfigurations = findLaunchConfigurations(resource);
+		for (ILaunchConfiguration iLaunchConfiguration : launchConfigurations) {
 			try {
 
 				String mode = ILaunchManager.RUN_MODE;
-				Set modes = launchConfiguration.getModes();
+				Set modes = iLaunchConfiguration.getModes();
 				if (modes.size() > 0) {
 					Object objMode = modes.iterator().next();
 					if (objMode instanceof String) {
@@ -120,65 +147,20 @@ public class TestOnSaveManager {
 					}
 				}
 
-				launchConfiguration.launch(mode, new NullProgressMonitor(),
+				iLaunchConfiguration.launch(mode, new NullProgressMonitor(),
 						true);
 
 			} catch (CoreException e) {
 				EMoreUnitSavePlugin.getDefault().getLog().log(e.getStatus());
-			}
+			}			
 		}
 	}
 	
-	/**
-	 * Returns a list of launch configurations corresponding to the
-	 * given editorPartFace.
-	 * 
-	 * @param launchShortcut
-	 * @param editorPartFacade
-	 * @return launchconfigurations, or an empty list of none have been found
-	 */
-	@NonNullByDefault
-	private List<ILaunchConfiguration> findLaunchConfigurations(
-			JUnitLaunchShortcut launchShortcut,
-			EditorPartFacade editorPartFacade) {
+	private List<ILaunchConfiguration> findLaunchConfigurations(IResource resource) {
 		
 		List<ILaunchConfiguration> result = new ArrayList<ILaunchConfiguration>();
 		
-		IStructuredSelection structuredSelection = null;
-		IMethod iMethod = editorPartFacade
-				.getFirstNonAnonymousMethodSurroundingCursorPosition();
-		structuredSelection = iMethod != null ? new StructuredSelection(iMethod)
-				: null;
-
-		if (structuredSelection == null) {
-			ICompilationUnit compilationUnit = editorPartFacade
-					.getCompilationUnit();
-			structuredSelection = compilationUnit != null ? new StructuredSelection(
-					compilationUnit) : null;
-		}
-
-		ILaunchConfiguration[] launchConfigurations = new ILaunchConfiguration[] {};
-		if (structuredSelection != null) {
-			launchConfigurations = launchShortcut
-					.getLaunchConfigurations(structuredSelection);
-		} else {
-			launchConfigurations = launchShortcut
-					.getLaunchConfigurations(editorPartFacade.getEditorPart());
-		}
-
-		for (ILaunchConfiguration iLaunchConfiguration : launchConfigurations) {
-			result.add(iLaunchConfiguration);
-		}
-		
-		return result;
-	}
-	
-	private List<ILaunchConfiguration> findLaunchConfigurations(EditorPartFacade editorPartFacade) {
-		
-		List<ILaunchConfiguration> result = new ArrayList<ILaunchConfiguration>();
-		
-		IFile file = editorPartFacade.getFile();
-		if(file!=null) {			
+		if(resource!=null) {			
 			ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();			
 			try {				
 				ILaunchConfiguration[] launchConfigurations = launchManager.getLaunchConfigurations();				
@@ -186,7 +168,7 @@ public class TestOnSaveManager {
 					IResource[] mappedResources = iLaunchConfiguration.getMappedResources();
 					if(mappedResources!=null) {
 						for (IResource iResource : mappedResources) {
-							if(file.equals(iResource)) {
+							if(resource.equals(iResource)) {
 								ILaunchConfigurationType type = iLaunchConfiguration.getType();
 								if("org.eclipse.jdt.junit.core".equals(type.getPluginIdentifier())) {
 									result.add(iLaunchConfiguration);									
