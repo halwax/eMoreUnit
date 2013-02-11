@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/org.emoreunit.save.feature_0.0.1.201302111251.jar" id="org.emoreunit.save.feature" version="0.0.1.201302111251">
-      <category name="EMOREUNIT"/>
-   </feature>
-   <category-def name="EMOREUNIT" label="EMOREUNIT"/>
-</site>

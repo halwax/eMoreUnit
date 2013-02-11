@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.emoreunit.save.feature_0.0.1.qualifier.jar" id="org.emoreunit.save.feature" version="0.0.1.qualifier">
+      <category name="EMoreUnit"/>
+   </feature>
+   <category-def name="EMoreUnit" label="EMoreUnit"/>
+</site>

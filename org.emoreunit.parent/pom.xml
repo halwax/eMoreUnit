@@ -15,7 +15,9 @@
     </properties>
     <modules>
         <module>../org.emoreunit.save.ui</module>
+        <module>../org.emoreunit.save.feature</module>
         <module>../org.emoreunit.target</module>
+        <module>../org.emoreunit.updatesite</module>
     </modules>
  
     <build>
