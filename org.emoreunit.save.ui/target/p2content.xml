@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='org.emoreunit.save.ui' version='0.0.1.201302112207'>
+    <update id='org.emoreunit.save.ui' range='[0.0.0,0.0.1.201302112207)' severity='0'/>
+    <properties size='4'>
+      <property name='org.eclipse.equinox.p2.name' value='EMoreUnit Test On Save UI'/>
+      <property name='maven-groupId' value='org.emoreunit'/>
+      <property name='maven-artifactId' value='org.emoreunit.save.ui'/>
+      <property name='maven-version' value='0.0.1-SNAPSHOT'/>
+    </properties>
+    <provides size='3'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.emoreunit.save.ui' version='0.0.1.201302112207'/>
+      <provided namespace='osgi.bundle' name='org.emoreunit.save.ui' version='0.0.1.201302112207'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+    </provides>
+    <requires size='8'>
+      <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.moreunit' range='3.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='3.8.1'/>
+      <required namespace='osgi.bundle' name='org.eclipse.jdt.annotation' range='1.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.debug.core' range='3.7.100'/>
+      <required namespace='osgi.bundle' name='org.eclipse.jdt.junit' range='3.7.100'/>
+      <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='3.8.2'/>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='org.emoreunit.save.ui' version='0.0.1.201302112207'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: org.emoreunit.save.ui;singleton:=true&#xA;Bundle-Version: 0.0.1.201302112207&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>

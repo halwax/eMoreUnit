@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='org.emoreunit.save.ui' version='0.0.1.201302112207'>
+    <properties size='6'>
+      <property name='artifact.size' value='11013'/>
+      <property name='download.size' value='11013'/>
+      <property name='download.md5' value='0f78ca998e7d7900e1d552dddae74ab9'/>
+      <property name='maven-groupId' value='org.emoreunit'/>
+      <property name='maven-artifactId' value='org.emoreunit.save.ui'/>
+      <property name='maven-version' value='0.0.1-SNAPSHOT'/>
+    </properties>
+  </artifact>
+</artifacts>

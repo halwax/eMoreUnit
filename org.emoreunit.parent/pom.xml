@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.emoreunit</groupId>
+  <artifactId>emoreunit-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>EMoreUnit Maven Parent Project</name>
+ 
+  <properties>
+  <tycho-version>0.13.0</tycho-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <modules>
+        <module>../org.emoreunit.save.ui</module>
+        <module>../org.emoreunit.target</module>
+    </modules>
+ 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <resolver>p2</resolver>
+                    <target>
+                            <!--  A reference to target platform artefact: -->
+                        <artifact>
+                            <groupId>org.emoreunit</groupId>
+                            <artifactId>emoreunit-target</artifactId>
+                            <version>0.0.1-SNAPSHOT</version>
+                            <classifier>emoreunit</classifier>
+                        </artifact>
+                    </target>
+                    <ignoreTychoRepositories>true</ignoreTychoRepositories>
+                           <!-- Environment configuration for the taget platform -->
+                    <environments>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86</arch>
+                        </environment>
+                    </environments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <extensions>true</extensions>
+            </plugin>            
+        </plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.1</version>
+					<configuration>
+						<rguments>-Pjdk16</rguments>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>        
+    </build>
+</project>

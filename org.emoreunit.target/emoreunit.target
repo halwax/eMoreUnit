@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target includeMode="feature" name="EMoreUnit Target Platform - Eclipse 4.2" sequenceNumber="70">
+<?pde version="3.8"?><target includeMode="feature" name="EMoreUnit Target Platform - Eclipse 4.2" sequenceNumber="71">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.jdt.feature.group" version="3.8.1.v20120814-104540-8-8nFqpFNOfwKDRVz-tXOcL5d_83"/>
 <repository location="http://download.eclipse.org/releases/juno"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.moreunit.feature.group" version="3.0.0.02"/>
+<unit id="org.moreunit.light.feature.group" version="3.0.0.02"/>
+<repository location="http://moreunit.sourceforge.net/update-site/"/>
 </location>
 </locations>
 <environment>
